@@ -5,8 +5,8 @@
  */
 var user_id       = '';
 var user_fullname = '';
-var lng           = -122.08;
-var lat           = 37.38;
+var lng           = -74.009508;
+var lat           = 40.7393257;
 
 /**
  * Initialize
@@ -21,9 +21,10 @@ function init() {
   validateSession();
   /*
   onSessionValid({
-	  user_id: '1111',
-	  name: 'John Smith'
-  }); */
+	  user_id:'1111',
+	  name:'emily'
+  }); */ 
+  
 }
 
 /**
@@ -95,7 +96,7 @@ function initGeoLocation() {
     navigator.geolocation.getCurrentPosition(onPositionUpdated, onLoadPositionFailed, {maximumAge: 60000});
     showLoadingMessage('Retrieving your location...');
   } else {
-    onLoadPositionFailed();
+	onLoadPositionFailed();
   }
 }
 
@@ -108,29 +109,27 @@ function onPositionUpdated(position) {
 
 function onLoadPositionFailed() {
   console.warn('navigator.geolocation is not available');
- // loadNearbyRestaurants();
   getLocationFromIP();
 }
+
 function getLocationFromIP() {
-	  // Get location from http://ipinfo.io/json
-	  var url = 'http://ipinfo.io/json'
-	  var req = null;
-	  ajax('GET', url, req,
-	    function (res) {
-	      var result = JSON.parse(res);
-	      if ('loc' in result) {
-	        var loc = result.loc.split(',');
-	        lat = loc[0];
-	        lng = loc[1];
-	      } else {
-	        console.warn('Getting location by IP failed.');
-	      }
-	      loadNearbyRestaurants();
-	    }
-	  );
-	}
-
-
+  // Get location from http://ipinfo.io/json
+  var url = 'http://ipinfo.io/json'
+  var req = null;
+  ajax('GET', url, req,
+    function (res) {
+      var result = JSON.parse(res);
+      if ('loc' in result) {
+        var loc = result.loc.split(',');
+        lat = loc[0];
+        lng = loc[1];
+      } else {
+        console.warn('Getting location by IP failed.');
+      }
+      loadNearbyRestaurants();
+    }
+  );
+}
 
 //-----------------------------------
 //  Login
@@ -164,7 +163,7 @@ function login() {
 }
 
 function showLoginError() {
-    $('login-error').innerHTML = 'Invalid username or password';
+  $('login-error').innerHTML = 'Invalid username or password';
 }
 
 function clearLoginError() {
@@ -473,10 +472,10 @@ function addRestaurant(restaurantList, restaurant) {
   var category = $('p', {className: 'restaurant-category'});
   category.innerHTML = 'Category: ' + restaurant.categories.join(', ');
   section.appendChild(category);
-  
+
   // stars
   var stars = $('div', {className: 'stars'});
-  for (var i = 0; i < restaurant.stars; i++) {
+  for (var i = 1; i <= restaurant.stars; i++) {
     var star = $('i', {className: 'fa fa-star'});
     stars.appendChild(star);
   }
